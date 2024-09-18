@@ -1,0 +1,7 @@
+<h1>Verify Message</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Verify</button>
+</form>
+<a href="{% url 'ecdsa_page' %}"><button>Go back</button></a>

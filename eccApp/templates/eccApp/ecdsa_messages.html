@@ -1,0 +1,9 @@
+<h1>Signed Messages</h1>
+<ul>
+    {% for message in messages %}
+        <li>
+            <a href="{% url 'ecdsa_message_detail' message.id %}">{{ message.message }} - {{ message.timestamp }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'ecdsa_page' %}"><button>Go back</button></a>

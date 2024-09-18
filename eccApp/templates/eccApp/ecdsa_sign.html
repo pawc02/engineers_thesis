@@ -1,0 +1,15 @@
+<h1>Sign Message</h1>
+<!-- Wyświetlanie komunikatów o błędach -->
+{% if messages %}
+    <div>
+        {% for message in messages %}
+            <p class="message {{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign</button>
+</form>
+<a href="{% url 'ecdsa_page' %}"><button>Go back</button></a>

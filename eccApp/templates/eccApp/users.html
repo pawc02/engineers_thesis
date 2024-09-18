@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Users Keys</title>
+</head>
+<body>
+<h1>Users Keys</h1>
+<ul>
+    {% for key in keys %}
+        <li><a href="{% url 'user_detail' key.id %}">{{ key.username }}</a></li>
+    {% endfor %}
+</ul>
+<a href="{% url 'ecdsa_page' %}"><button>Go to ECDSA</button></a>
+<a href="{% url 'elgamal_page' %}"><button>Go to El Gamal</button></a>
+</body>
+</html>

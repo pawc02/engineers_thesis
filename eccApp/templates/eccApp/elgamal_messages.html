@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Encrypted Messages</title>
+</head>
+<body>
+<h1>Encrypted Messages</h1>
+<ul>
+    {% for message in messages %}
+        <li>
+            <a href="{% url 'elgamal_message_detail' message.id %}">
+                Encrypted Message ID: {{ message.id }} - Receiver: {{ message.receiver }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'elgamal_page' %}"><button>Go back</button></a>
+</body>
+</html>

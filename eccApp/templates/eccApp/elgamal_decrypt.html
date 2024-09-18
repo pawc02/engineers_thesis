@@ -1,0 +1,19 @@
+<!-- elgamal_decrypt.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decrypt Message</title>
+</head>
+<body>
+<h1>Decrypt Message</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Decrypt Message</button>
+</form>
+<br>
+<a href="{% url 'elgamal_page' %}"><button>Go back</button></a>
+</body>
+</html>
