@@ -1,9 +1,23 @@
-<h1>Signed Messages</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signed messages</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
+
+<h1>Signed messages</h1>
 <ul>
     {% for message in messages %}
         <li>
-            <a href="{% url 'ecdsa_message_detail' message.id %}">{{ message.message }} - {{ message.timestamp }}</a>
+            <a href="{% url 'ecdsa_message_detail' message.id %}">User: {{ message.username }} - {{ message.timestamp }}</a>
         </li>
     {% endfor %}
 </ul>
 <a href="{% url 'ecdsa_page' %}"><button>Go back</button></a>
+
+</body>
+</html>

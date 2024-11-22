@@ -1,5 +1,6 @@
 import hashlib
 import random
+import math
 
 class Point:
     def __init__(self, x=0, y=0, is_infinity=True):
@@ -25,7 +26,9 @@ def mod_inverse(a, n):
         t, newt = newt, t - quotient * newt
         r, newr = newr, r - quotient * newr
     if r > 1:
-        raise ValueError("No inverse exists")
+        # Jeśli nie ma odwrotności, gcd(a, n) jest dzielnikiem
+        factor = gcd(a, n)
+        raise ValueError(f"a is not invertible, factor = {factor}")
     return t + n if t < 0 else t
 
 def elliptic_curve_add(p, q, a, n):
@@ -37,15 +40,19 @@ def elliptic_curve_add(p, q, a, n):
     if p.x == q.x and (p.y + q.y) % n == 0:
         return Point()
 
-    if p.x == q.x and p.y == q.y:
-        # Point doubling
-        pom = (2 * p.y) % n
-        lambda_ = ((3 * p.x * p.x + a) * mod_inverse(pom, n)) % n
-    else:
-        # Point addition
-        pom = ((q.x - p.x) % n + n) % n
-        pom2 = ((q.y - p.y) % n + n) % n
-        lambda_ = pom2 * mod_inverse(pom, n) % n
+    try:
+        if p.x == q.x and p.y == q.y:
+            # Point doubling
+            pom = (2 * p.y) % n
+            lambda_ = ((3 * p.x * p.x + a) * mod_inverse(pom, n)) % n
+        else:
+            # Point addition
+            pom = ((q.x - p.x) % n + n) % n
+            pom2 = ((q.y - p.y) % n + n) % n
+            lambda_ = pom2 * mod_inverse(pom, n) % n
+    except ValueError as e:
+        # Złap wyjątek i przerzuć go dalej, aby zgłosić znaleziony dzielnik
+        raise e
 
     xr = (lambda_ * lambda_ - p.x - q.x) % n
     xr = (xr + n) % n
@@ -115,3 +122,45 @@ def elgamal_decrypt(privkey, C1, C2, G, curve_a, curve_b, curve_p, curve_n):
     kC1 = elliptic_curve_multiply(C1, privkey, curve_a, curve_p)
     kC1.y = -kC1.y % curve_p  # Negacja współrzędnej y
     return elliptic_curve_add(C2, kC1, curve_a, curve_p)
+
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+def lcm(a, b):
+    return (a // gcd(a, b)) * b
+
+def lcm_ext(numbers):
+    wynik = numbers[0]
+    for num in numbers[1:]:
+        wynik = lcm(wynik, num)
+    return wynik
+
+def ecm_factorization(n):
+    attempts = 0
+    while True:
+        a = random.randint(1, n - 1)
+        x = random.randint(1, n - 1)
+        y = random.randint(1, n - 1)
+        b = (y * y - x * x * x - a * x) % n
+        if b < 0:
+            b += n
+
+        # Jeśli największy wspólny dzielnik jest różny od 1, przejdź do następnej iteracji
+        if gcd(4 * a * a * a + 27 * b * b, n) != 1:
+            continue
+
+        attempts += 1
+        P = Point(x, y, False)
+
+        numbers = [i for i in range(2, 11)]
+        k = lcm_ext(numbers)
+
+        # Próbuj wykonywać operacje na krzywej eliptycznej
+        try:
+            P = elliptic_curve_multiply(P, k, a, n)
+        except ValueError as e:
+            # Jeśli pojawi się błąd z `mod_inverse`, oznacza to, że znaleźliśmy dzielnik
+            dzielnik = int(str(e).split('=')[-1].strip())  # Pobieramy wartość dzielnika z komunikatu błędu
+            return dzielnik, attempts

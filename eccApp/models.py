@@ -36,6 +36,7 @@ class EncryptedMessage(models.Model):
     c1_y = models.BigIntegerField()
     c2_x = models.BigIntegerField()
     c2_y = models.BigIntegerField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'Encrypted message with C1=({self.c1_x}, {self.c1_y}) and C2=({self.c2_x}, {self.c2_y})'

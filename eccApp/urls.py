@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.home_page, name='home_page'),
     path('ecdsa/', views.ecdsa_page, name='ecdsa_page'),
     path('elgamal/', views.elgamal_page, name='elgamal_page'),
+    path('lenstra/', views.lenstra_page, name='lenstra_page'),
 
     # User paths
     path('generate_keys/', views.generate_keys_view, name='generate_keys'),
@@ -29,4 +30,7 @@ urlpatterns = [
     path('ecdsa/verify/', views.ecdsa_verify_view, name='ecdsa_verify'),
     path('ecdsa/verify/<int:message_id>/', views.ecdsa_verify_view, name='ecdsa_verify_with_id'),
     path('ecdsa/delete_message/<int:message_id>/', views.ecdsa_delete_message, name='ecdsa_delete_message'),
+
+    # Lenstra path
+    path('lenstra/factorize/', views.lenstra_factorize, name='lenstra_factorize'),
 ]

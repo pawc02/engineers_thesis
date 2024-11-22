@@ -1,4 +1,15 @@
-<h1>Sign Message</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Message</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
+
+<h1>Sign message</h1>
 <!-- Wyświetlanie komunikatów o błędach -->
 {% if messages %}
     <div>
@@ -13,3 +24,6 @@
     <button type="submit">Sign</button>
 </form>
 <a href="{% url 'ecdsa_page' %}"><button>Go back</button></a>
+
+</body>
+</html>

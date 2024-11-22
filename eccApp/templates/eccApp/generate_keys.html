@@ -1,17 +1,21 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Generate ElGamal Keys</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate keys and parameters</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
-<h1>Generate ElGamal Keys</h1>
+<h1>Generate user keys and parameters</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Generate Keys</button>
+    <button type="submit">Generate keys</button>
 </form>
 <br>
-<a href="{% url 'ecdsa_page' %}"><button>Go to ECDSA</button></a>
 <a href="{% url 'elgamal_page' %}"><button>Go to El Gamal</button></a>
+<a href="{% url 'ecdsa_page' %}"><button>Go to ECDSA</button></a>
 </body>
 </html>

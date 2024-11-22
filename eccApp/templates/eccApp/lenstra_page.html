@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lenstra algorithm</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
+<h1>Lenstra algorithm</h1>
+<a href="{% url 'lenstra_factorize' %}"><button>Factorize</button></a>
+<a href="{% url 'home_page' %}"><button>Go back</button></a>
+</body>
+</html>

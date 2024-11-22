@@ -1,17 +1,18 @@
-<!-- elgamal_decrypt_result.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Decrypted Message</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
 <h1>Decrypted Message</h1>
 
 {% if decrypted_message %}
     <p><strong>Decrypted Message:</strong></p>
-    <p>{{ decrypted_message.x }}, {{ decrypted_message.y }}</p>
+    <p>({{ decrypted_message.x }}, {{ decrypted_message.y }})</p>
 {% else %}
     <p>No message was decrypted.</p>
 {% endif %}

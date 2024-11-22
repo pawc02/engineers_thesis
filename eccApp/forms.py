@@ -69,3 +69,6 @@ class KeysGenerationForm(forms.Form):
 
 class PasswordVerificationForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
+
+class LenstraForm(forms.Form):
+    number_to_factorize = forms.IntegerField(label='Liczba do faktoryzacji')

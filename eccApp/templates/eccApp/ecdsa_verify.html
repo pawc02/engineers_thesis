@@ -1,7 +1,21 @@
-<h1>Verify Message</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify message</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
+
+<h1>Verify message</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Verify</button>
 </form>
 <a href="{% url 'ecdsa_page' %}"><button>Go back</button></a>
+
+</body>
+</html>

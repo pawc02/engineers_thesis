@@ -1,3 +1,17 @@
-<h1>Verification Result</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification result</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
+
+<h1>Verification result</h1>
 <p>Signature is {{ valid|yesno:"valid,invalid" }}</p>
 <a href="{% url 'ecdsa_messages' %}"><button>Go back</button></a>
+
+</body>
+</html>

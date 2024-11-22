@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import EcdsaSignForm, EcdsaVerifyForm, ElGamalEncryptForm, ElGamalDecryptForm, KeysGenerationForm, PasswordVerificationForm
+from .forms import EcdsaSignForm, EcdsaVerifyForm, ElGamalEncryptForm, ElGamalDecryptForm, KeysGenerationForm, PasswordVerificationForm, LenstraForm
 from .models import SignedMessage, EncryptedMessage, UserKeys
-from .appModule import generate_key_pair, hash_message, ecdsa_sign, ecdsa_verify, Point, elgamal_encrypt, elgamal_decrypt
+from .appModule import generate_key_pair, hash_message, ecdsa_sign, ecdsa_verify, Point, elgamal_encrypt, elgamal_decrypt, ecm_factorization
 from django.shortcuts import get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.hashers import check_password, make_password
@@ -380,3 +380,26 @@ def delete_user_view(request, key_id):
 
     # Przekieruj do strony z listą użytkowników
     return redirect('users')
+
+
+
+
+# Lenstra algorithm
+
+def lenstra_page(request):
+    return render(request, 'eccApp/lenstra_page.html')
+
+def lenstra_factorize(request):
+    if request.method == 'POST':
+        form = LenstraForm(request.POST)
+        if form.is_valid():
+            number_to_factorize = form.cleaned_data['number_to_factorize']
+            try:
+                factor, attempts = ecm_factorization(number_to_factorize)
+                result = f"Znaleziono dzielnik: {factor} po {attempts} próbach"
+            except Exception as e:
+                result = f"Błąd podczas faktoryzacji: {str(e)}"
+            return render(request, 'eccApp/lenstra_result.html', {'result': result})
+    else:
+        form = LenstraForm()
+    return render(request, 'eccApp/lenstra_factorize.html', {'form': form})

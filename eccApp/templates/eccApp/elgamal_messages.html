@@ -1,7 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encrypted Messages</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
 <h1>Encrypted Messages</h1>
@@ -9,7 +13,8 @@
     {% for message in messages %}
         <li>
             <a href="{% url 'elgamal_message_detail' message.id %}">
-                Encrypted Message ID: {{ message.id }} - Receiver: {{ message.receiver }}
+{#                Encrypted Message ID: {{ message.id }} - Receiver: {{ message.receiver }}#}
+                Receiver: {{ message.receiver }} - {{ message.timestamp }}
             </a>
         </li>
     {% endfor %}

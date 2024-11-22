@@ -1,10 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Key Details</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
-<h1>User Key Details</h1>
+<h1>User keys and parameters</h1>
 <p><strong>Username:</strong> {{ key.username }}</p>
 <p><strong>Prime Field P:</strong> {{ key.curve_p }}</p>
 <p><strong>Curve A:</strong> {{ key.curve_a }}</p>
@@ -26,8 +30,8 @@
     {% endif %}
 {% endif %}
 
-<a href="{% url 'ecdsa_sign' key.id %}"><button>Sign message</button></a>
 <a href="{% url 'elgamal_encrypt_to_user' key.id %}"><button>Encrypt message to this user</button></a>
+<a href="{% url 'ecdsa_sign' key.id %}"><button>Sign message</button></a>
 <a href="{% url 'delete_user' key.id %}"><button onclick="return confirm('Are you sure you want to delete this user?');">Delete user</button></a>
 <a href="{% url 'users' %}"><button>Go back</button></a>
 </body>

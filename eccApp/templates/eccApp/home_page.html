@@ -1,3 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptography App</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
 <h1>Welcome to Cryptography App!</h1>
-<a href="{% url 'ecdsa_page' %}"><button>ECDSA</button></a>
 <a href="{% url 'elgamal_page' %}"><button>ElGamal</button></a>
+<a href="{% url 'ecdsa_page' %}"><button>ECDSA</button></a>
+<a href="{% url 'lenstra_page' %}"><button>Lenstra</button></a>
+</body>
+</html>

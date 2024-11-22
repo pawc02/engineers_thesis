@@ -1,7 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECDSA algorithm</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
 <h1>ECDSA algorithm</h1>
 <a href="{% url 'ecdsa_sign' %}"><button>Sign Message</button></a>
 <a href="{% url 'ecdsa_messages' %}"><button>Signed Messages</button></a>
 <a href="{% url 'ecdsa_verify' %}"><button>Verify signature</button></a>
-<a href="{% url 'generate_keys' %}"><button>Generate user keys</button></a>
+<a href="{% url 'generate_keys' %}"><button>Generate user keys and parameters</button></a>
 <a href="{% url 'users' %}"><button>Users</button></a>
 <a href="{% url 'home_page' %}"><button>Go back</button></a>
+</body>
+</html>
