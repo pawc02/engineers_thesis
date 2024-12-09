@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyświetl wykres krzywej</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
+<h1>Wyświetl wykres krzywej</h1>
+{% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <h2>Parametry krzywej</h2>
+    {{ form.curve_p.label_tag }} {{ form.curve_p }}
+    {{ form.curve_a.label_tag }} {{ form.curve_a }}
+    {{ form.curve_b.label_tag }} {{ form.curve_b }}
+
+    <button type="submit">Wyświetl wykres</button>
+</form>
+
+{% if points_on_curve %}
+    <h2>Punkty krzywej</h2>
+    <p>
+        {{ points_on_curve|join:", " }}
+    </p>
+
+    <h2>Wykres krzywej</h2>
+    <img src="data:image/png;base64,{{ plot_url }}" alt="Elliptic Curve Graph">
+{% endif %}
+
+<br>
+<a href="{% url 'curve_operations' %}"><button>Wstecz</button></a>
+</body>
+</html>

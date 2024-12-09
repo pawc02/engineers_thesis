@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operacje na krzywych</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
+<h1>Operacje na krzywych</h1>
+<a href="{% url 'add_points' %}"><button>Dodawanie punktów</button></a>
+<a href="{% url 'multiply_point' %}"><button>Wielokrotność punktu</button></a>
+<a href="{% url 'show_multiples_of_point' %}"><button>Wyświetl wielokrotności punktu</button></a>
+<a href="{% url 'show_curve_graph' %}"><button>Wyświetl wykres krzywej</button></a>
+<a href="{% url 'home_page' %}"><button>Wstecz</button></a>
+</body>
+</html>

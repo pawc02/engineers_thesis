@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodawanie punktów</title>
+    <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
+</head>
+<body>
+<h1>Dodawanie punktów</h1>
+{% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <h2>Parametry krzywej</h2>
+    {{ form.curve_p.label_tag }} {{ form.curve_p }}
+    {{ form.curve_a.label_tag }} {{ form.curve_a }}
+    {{ form.curve_b.label_tag }} {{ form.curve_b }}
+
+    <h2>Współrzędne pierwszego punktu</h2>
+    {{ form.p_x.label_tag }} {{ form.p_x }}
+    {{ form.p_y.label_tag }} {{ form.p_y }}
+
+    <h2>Współrzędne drugiego punktu</h2>
+    {{ form.q_x.label_tag }} {{ form.q_x }}
+    {{ form.q_y.label_tag }} {{ form.q_y }}
+
+    <button type="submit">Oblicz</button>
+</form>
+
+{% if result %}
+    <h2>Wynik</h2>
+    <p>P = ({{ point_p.x }}, {{ point_p.y }})</p>
+    <p>Q = ({{ point_q.x }}, {{ point_q.y }})</p>
+    <p>P + Q =
+        {% if result.is_infinity %}
+            Punkt w nieskończoności
+        {% else %}
+            ({{ result.x }}, {{ result.y }})
+        {% endif %}
+    </p>
+
+    {% if plot_url %}
+        <img src="data:image/png;base64,{{ plot_url }}" alt="Elliptic Curve Plot">
+    {% endif %}
+{% endif %}
+<a href="{% url 'curve_operations' %}"><button>Wstecz</button></a>
+</body>
+</html>
