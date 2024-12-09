@@ -13,21 +13,20 @@ class SignedMessage(models.Model):
     pubkey_y = models.IntegerField()
     r = models.IntegerField()
     s = models.IntegerField()
-    hash = models.CharField(max_length=64)  # SHA-256 hash ma 64 znaki
+    hash = models.CharField(max_length=64)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Message signed at {self.timestamp}"
+        return f"Wiadomość podpisana {self.timestamp} z otrzymanymi składowymi podpisu r = {self.r} oraz s = {self.s}"
 
 
 class EncryptedMessage(models.Model):
-    receiver = models.CharField(max_length=100)  # Odbiorca wiadomości
-    curve_p = models.BigIntegerField()  # Moduł p
+    receiver = models.CharField(max_length=100)
+    curve_p = models.BigIntegerField()
     curve_a = models.BigIntegerField()
     curve_b = models.BigIntegerField()
-    curve_n = models.BigIntegerField()  # Rząd krzywej
-    g_x = models.BigIntegerField()  # Punkt bazowy G (x)
-    g_y = models.BigIntegerField()  # Punkt bazowy G (y)
+    g_x = models.BigIntegerField()
+    g_y = models.BigIntegerField()
     pubkey_x = models.BigIntegerField()
     pubkey_y = models.BigIntegerField()
     message_x = models.BigIntegerField()
@@ -39,12 +38,12 @@ class EncryptedMessage(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Encrypted message with C1=({self.c1_x}, {self.c1_y}) and C2=({self.c2_x}, {self.c2_y})'
+        return f'Zaszyfrowana wiadomość z otrzymanymi punktami szyfrogramu C1=({self.c1_x}, {self.c1_y}) and C2=({self.c2_x}, {self.c2_y})'
 
 
 class UserKeys(models.Model):
     username = models.CharField(max_length=100, unique=True)
-    hashed_password = models.CharField(max_length=128)  # Przechowuj hasło w formie haszowanej
+    hashed_password = models.CharField(max_length=128)
     curve_p = models.IntegerField()
     curve_a = models.IntegerField()
     curve_b = models.IntegerField()

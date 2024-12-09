@@ -1,34 +1,30 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message details</title>
+    <title>Szczegóły podpisanej wiadomości</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
 
-<h1>Message details</h1>
-<p><strong>Signer:</strong> {{ message.username }}</p>
-<p><strong>Curve P:</strong> {{ message.curve_p }}</p>
-<p><strong>Curve A:</strong> {{ message.curve_a }}</p>
-<p><strong>Curve B:</strong> {{ message.curve_b }}</p>
-<p><strong>Curve N:</strong> {{ message.curve_n }}</p>
-<p><strong>G_x:</strong> {{ message.g_x }}</p>
-<p><strong>G_y:</strong> {{ message.g_y }}</p>
-<p><strong>Message:</strong> {{ message.message }}</p>
-<p><strong>Public Key X:</strong> {{ message.pubkey_x }}</p>
-<p><strong>Public Key Y:</strong> {{ message.pubkey_y }}</p>
-<p><strong>R:</strong> {{ message.r }}</p>
-<p><strong>S:</strong> {{ message.s }}</p>
-<p><strong>Hash:</strong> {{ message.hash }}</p>
+<h1>Szczegóły podpisanej wiadomości</h1>
+<p><strong>Osoba podpisująca:</strong> {{ message.username }}</p>
+<p><strong>Liczba pierwsza p:</strong> {{ message.curve_p }}</p>
+<p><strong>Współczynnik a:</strong> {{ message.curve_a }}</p>
+<p><strong>Współczynnik b:</strong> {{ message.curve_b }}</p>
+<p><strong>Liczba punktów na krzywej:</strong> {{ message.curve_n }}</p>
+<p><strong>Punkt bazowy (x, y):</strong> ({{ message.g_x }}, {{ message.g_y }})</p>
+<p><strong>Wiadomość:</strong> {{ message.message }}</p>
+<p><strong>Klucz publiczny osoby podpisującej (x, y):</strong> ({{ message.pubkey_x }}, {{ message.pubkey_y }})</p>
+<p><strong>Składowa r podpisu:</strong> {{ message.r }}</p>
+<p><strong>Składowa s podpisu:</strong> {{ message.s }}</p>
+<p><strong>Hash wiadomości:</strong> {{ message.hash }}</p>
 
-<a href="{% url 'ecdsa_messages' %}"><button>Go back</button></a>
-<a href="{% url 'ecdsa_verify_with_id' message.id %}"><button>Verify</button></a>
-<a href="{% url 'ecdsa_delete_message' message.id %}" onclick="return confirm('Are you sure you want to delete this message?');">
-    <button>Delete Message</button>
-</a>
+<a href="{% url 'ecdsa_verify_with_id' message.id %}"><button>Zweryfikuj podpis</button></a>
+<a href="{% url 'ecdsa_delete_message' message.id %}" onclick="return confirm('Czy na pewno chcesz usunąć wiadomość?');"><button>Usuń wiadomość</button></a>
+<a href="{% url 'ecdsa_messages' %}"><button>Wstecz</button></a>
 
 </body>
 </html>

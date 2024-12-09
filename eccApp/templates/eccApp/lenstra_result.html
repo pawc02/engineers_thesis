@@ -1,15 +1,15 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factorization result</title>
+    <title>Wynik faktoryzacji</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
 <h1>Wynik faktoryzacji</h1>
 <p>{{ result }}</p>
-<a href="{% url 'lenstra_page' %}"><button>Go back</button></a>
+<a href="{% url 'lenstra_factorize' %}"><button>Wstecz</button></a>
 </body>
 </html>

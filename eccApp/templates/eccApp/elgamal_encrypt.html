@@ -1,20 +1,44 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElGamal Encrypt Message</title>
+    <title>Szyfrowanie wiadomości</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
-<h1>Encrypt Message using ElGamal</h1>
+<h1>Szyfrowanie wiadomości</h1>
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p style="color: red;" class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Encrypt Message</button>
+    {{ form.receiver.label_tag }} {{ form.receiver }}
+    <h2>Parametry krzywej</h2>
+    {{ form.curve_p.label_tag }} {{ form.curve_p }}
+    {{ form.curve_a.label_tag }} {{ form.curve_a }}
+    {{ form.curve_b.label_tag }} {{ form.curve_b }}
+
+    <h2>Punkt bazowy</h2>
+    {{ form.g_x.label_tag }} {{ form.g_x }}
+    {{ form.g_y.label_tag }} {{ form.g_y }}
+
+    <h2>Klucz publiczny odbiorcy</h2>
+    {{ form.pubkey_x.label_tag }} {{ form.pubkey_x }}
+    {{ form.pubkey_y.label_tag }} {{ form.pubkey_y }}
+
+    <h2>Wiadomość w postaci punktu</h2>
+    {{ form.message_x.label_tag }} {{ form.message_x }}
+    {{ form.message_y.label_tag }} {{ form.message_y }}
+
+    <button type="submit">Zaszyfruj wiadomość</button>
 </form>
 <br>
-<a href="{% url 'elgamal_page' %}"><button>Go back</button></a>
+<a href="{% url 'elgamal_page' %}"><button>Wstecz</button></a>
 </body>
 </html>

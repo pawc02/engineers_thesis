@@ -1,21 +1,69 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate keys and parameters</title>
+    <title>{% if update_mode %}Zmień dane użytkownika{% else %}Wygeneruj klucze i parametry użytkownika{% endif %}</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
-<h1>Generate user keys and parameters</h1>
+<h1>{% if update_mode %}Zmień dane użytkownika{% else %}Wygeneruj klucze i parametry użytkownika{% endif %}</h1>
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p style="color: red;" class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Generate keys</button>
+    {{ form.username.label_tag }} {{ form.username }}
+
+    {% if update_mode %}
+        {{ form.old_password.label_tag }} {{ form.old_password }}
+        {{ form.new_password.label_tag }} {{ form.new_password }}
+    {% else %}
+        {{ form.password.label_tag }} {{ form.password }}
+    {% endif %}
+
+    <h2>Parametry krzywej</h2>
+    {{ form.curve_p.label_tag }} {{ form.curve_p }}
+    {{ form.curve_a.label_tag }} {{ form.curve_a }}
+    {{ form.curve_b.label_tag }} {{ form.curve_b }}
+
+    <h2>Punkt bazowy</h2>
+    {{ form.g_x.label_tag }} {{ form.g_x }}
+    {{ form.g_y.label_tag }} {{ form.g_y }}
+
+    <button type="submit" name="generate_keys" id="generate-keys-btn">
+        {% if update_mode %}Zmień dane{% else %}Wygeneruj klucze{% endif %}
+    </button>
+    <button type="submit" name="draw_parameters" id="draw-parameters-btn">
+        Wylosuj parametry
+    </button>
 </form>
+<script>
+    // Wyłączenie wymagalności pól, gdy klikamy "Draw Parameters"
+    document.getElementById("draw-parameters-btn").addEventListener("click", function() {
+        document.querySelectorAll("input").forEach(function(input) {
+            input.required = false;
+        });
+    });
+    // Przywrócenie wymagalności pól przy "Generate Keys"
+    document.getElementById("generate-keys-btn").addEventListener("click", function() {
+        document.querySelectorAll("input").forEach(function(input) {
+            input.required = true;
+        });
+    });
+</script>
+
 <br>
-<a href="{% url 'elgamal_page' %}"><button>Go to El Gamal</button></a>
-<a href="{% url 'ecdsa_page' %}"><button>Go to ECDSA</button></a>
+{% if update_mode %}
+    <a href="{% url 'user_detail' key_id %}"><button>Wstecz</button></a>
+{% else %}
+    <a href="{% url 'elgamal_page' %}"><button>Wróć do ElGamala</button></a>
+    <a href="{% url 'ecdsa_page' %}"><button>Wróć do ECDSA</button></a>
+{% endif %}
 </body>
 </html>

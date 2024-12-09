@@ -1,21 +1,47 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify message</title>
+    <title>Zweryfikuj podpis</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
 
-<h1>Verify message</h1>
+<h1>Zweryfikuj podpis</h1>
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p style="color: red;" class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Verify</button>
+    <h2>Parametry krzywej</h2>
+    {{ form.curve_p.label_tag }} {{ form.curve_p }}
+    {{ form.curve_a.label_tag }} {{ form.curve_a }}
+    {{ form.curve_b.label_tag }} {{ form.curve_b }}
+
+    <h2>Punkt bazowy</h2>
+    {{ form.g_x.label_tag }} {{ form.g_x }}
+    {{ form.g_y.label_tag }} {{ form.g_y }}
+
+    <h2>Klucz publiczny osoby podpisującej</h2>
+    {{ form.pubkey_x.label_tag }} {{ form.pubkey_x }}
+    {{ form.pubkey_y.label_tag }} {{ form.pubkey_y }}
+
+    <h2>Podpis</h2>
+    {{ form.r.label_tag }} {{ form.r }}
+    {{ form.s.label_tag }} {{ form.s }}
+
+    <h2>Podpisana wiadomość</h2>
+    {{ form.message.label_tag }} {{ form.message }}
+
+    <button type="submit">Zweryfikuj podpis</button>
 </form>
-<a href="{% url 'ecdsa_page' %}"><button>Go back</button></a>
+<a href="{% url 'ecdsa_page' %}"><button>Wstecz</button></a>
 
 </body>
 </html>

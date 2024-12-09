@@ -1,17 +1,17 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verification result</title>
+    <title>Wynik weryfikacji</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
 
-<h1>Verification result</h1>
-<p>Signature is {{ valid|yesno:"valid,invalid" }}</p>
-<a href="{% url 'ecdsa_messages' %}"><button>Go back</button></a>
+<h1>Wynik weryfikacji</h1>
+<p>Podpis jest {{ valid|yesno:"poprawny,niepoprawny" }}!</p>
+<a href="{% url 'ecdsa_messages' %}"><button>Wstecz</button></a>
 
 </body>
 </html>

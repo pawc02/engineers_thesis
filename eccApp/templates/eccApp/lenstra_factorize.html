@@ -1,19 +1,27 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factorization</title>
+    <title>Znajdowanie dzielnika</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
-<h1>Faktoryzacja za pomocą algorytmu Lenstry</h1>
+<h1>Znajdowanie dzielnika za pomocą algorytmu Lenstry</h1>
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p style="color: red;" class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Factorize</button>
+    <button type="submit">Znajdź dzielnik</button>
 </form>
-<a href="{% url 'home_page' %}"><button>Go back</button></a>
+<br>
+<a href="{% url 'home_page' %}"><button>Wstecz</button></a>
 </body>
 </html>

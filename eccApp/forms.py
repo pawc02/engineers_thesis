@@ -1,74 +1,102 @@
 from django import forms
 
 class EcdsaSignForm(forms.Form):
-    username = forms.CharField(label='Username',max_length=100)
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    curve_p = forms.IntegerField(label='Curve P')
-    curve_a = forms.IntegerField(label='Curve A')
-    curve_b = forms.IntegerField(label='Curve B')
-    curve_n = forms.IntegerField(label='Curve N')
-    g_x = forms.IntegerField(label='Base Point Gx')
-    g_y = forms.IntegerField(label='Base Point Gy')
-    message = forms.CharField(label='Message', widget=forms.Textarea)
+    username = forms.CharField(label='Nazwa użytkownika',max_length=100)
+    password = forms.CharField(label='Hasło', widget=forms.PasswordInput)
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    g_x = forms.IntegerField(label='Współrzędna x')
+    g_y = forms.IntegerField(label='Współrzędna y')
+    message = forms.CharField(label='Wiadomość', widget=forms.Textarea)
 
 class EcdsaVerifyForm(forms.Form):
-    curve_p = forms.IntegerField(label='Curve P')
-    curve_a = forms.IntegerField(label='Curve A')
-    curve_b = forms.IntegerField(label='Curve B')
-    curve_n = forms.IntegerField(label='Curve N')
-    g_x = forms.IntegerField(label='Base Point Gx')
-    g_y = forms.IntegerField(label='Base Point Gy')
-    message = forms.CharField(label='Message', widget=forms.Textarea)
-    pubkey_x = forms.IntegerField(label='Public Key X')
-    pubkey_y = forms.IntegerField(label='Public Key Y')
-    r = forms.IntegerField(label='Signature r')
-    s = forms.IntegerField(label='Signature s')
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    g_x = forms.IntegerField(label='Współrzędna x')
+    g_y = forms.IntegerField(label='Współrzędna y')
+    pubkey_x = forms.IntegerField(label='Współrzędna x')
+    pubkey_y = forms.IntegerField(label='Współrzędna y')
+    r = forms.IntegerField(label='Składowa r')
+    s = forms.IntegerField(label='Składowa s')
+    message = forms.CharField(label='Wiadomość', widget=forms.Textarea)
 
 class ElGamalEncryptForm(forms.Form):
-    receiver = forms.CharField(label='Receiver', max_length=100)
-    curve_p = forms.IntegerField(label='Prime Field P')
-    curve_a = forms.IntegerField(label='Elliptic Curve A')
-    curve_b = forms.IntegerField(label='Elliptic Curve B')
-    curve_n = forms.IntegerField(label='Order of Curve N')
-
-    g_x = forms.IntegerField(label='Base Point G X coordinate')
-    g_y = forms.IntegerField(label='Base Point G Y coordinate')
-
-    pubkey_x = forms.IntegerField(label='Public Key X coordinate')
-    pubkey_y = forms.IntegerField(label='Public Key Y coordinate')
-
-    message_x = forms.IntegerField(label='Message X coordinate')
-    message_y = forms.IntegerField(label='Message Y coordinate')
+    receiver = forms.CharField(label='Odbiorca', max_length=100)
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    g_x = forms.IntegerField(label='Współrzędna x')
+    g_y = forms.IntegerField(label='Współrzędna y')
+    pubkey_x = forms.IntegerField(label='Współrzędna x')
+    pubkey_y = forms.IntegerField(label='Współrzędna y')
+    message_x = forms.IntegerField(label='Współrzędna x')
+    message_y = forms.IntegerField(label='Współrzędna y')
 
 class ElGamalDecryptForm(forms.Form):
-    receiver = forms.CharField(label='Receiver', max_length=100)
-    curve_p = forms.IntegerField(label='Prime Field P')
-    curve_a = forms.IntegerField(label='Elliptic Curve A')
-    curve_b = forms.IntegerField(label='Elliptic Curve B')
-    curve_n = forms.IntegerField(label='Order of Curve N')
-
-    g_x = forms.IntegerField(label='Base Point G X coordinate')
-    g_y = forms.IntegerField(label='Base Point G Y coordinate')
-
-    privkey = forms.IntegerField(label='Private Key')
-
-    c1_x = forms.IntegerField(label='Ciphertext C1 X coordinate')
-    c1_y = forms.IntegerField(label='Ciphertext C1 Y coordinate')
-    c2_x = forms.IntegerField(label='Ciphertext C2 X coordinate')
-    c2_y = forms.IntegerField(label='Ciphertext C2 Y coordinate')
+    receiver = forms.CharField(label='Odbiorca', max_length=100)
+    privkey = forms.IntegerField(label='Klucz prywatny odbiorcy')
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    g_x = forms.IntegerField(label='Współrzędna x')
+    g_y = forms.IntegerField(label='Współrzędna y')
+    c1_x = forms.IntegerField(label='Współrzędna x')
+    c1_y = forms.IntegerField(label='Współrzędna y')
+    c2_x = forms.IntegerField(label='Współrzędna x')
+    c2_y = forms.IntegerField(label='Współrzędna y')
 
 class KeysGenerationForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=100)
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    curve_p = forms.IntegerField(label='Prime Field P')
-    curve_a = forms.IntegerField(label='Elliptic Curve A')
-    curve_b = forms.IntegerField(label='Elliptic Curve B')
-    curve_n = forms.IntegerField(label='Order of Curve N')
-    g_x = forms.IntegerField(label='Base Point G X coordinate')
-    g_y = forms.IntegerField(label='Base Point G Y coordinate')
+    username = forms.CharField(label='Nazwa użytkownika', max_length=100)
+    password = forms.CharField(label='Hasło', widget=forms.PasswordInput)
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    g_x = forms.IntegerField(label='Współrzędna x')
+    g_y = forms.IntegerField(label='Współrzędna y')
+
+class UpdateUserParametersForm(forms.Form):
+    username = forms.CharField(label='Nazwa użytkownika', max_length=100)
+    old_password = forms.CharField(label='Stare hasło', widget=forms.PasswordInput)
+    new_password = forms.CharField(label='Nowe hasło', widget=forms.PasswordInput, required=False)
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    g_x = forms.IntegerField(label='Współrzędna x')
+    g_y = forms.IntegerField(label='Współrzędna y')
 
 class PasswordVerificationForm(forms.Form):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password = forms.CharField(label='Hasło', widget=forms.PasswordInput)
 
 class LenstraForm(forms.Form):
     number_to_factorize = forms.IntegerField(label='Liczba do faktoryzacji')
+
+class AddPointsForm(forms.Form):
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')
+    p_x = forms.IntegerField(label='Współrzędna x')
+    p_y = forms.IntegerField(label='Współrzędna y')
+    q_x = forms.IntegerField(label='Współrzędna x')
+    q_y = forms.IntegerField(label='Współrzędna y')
+
+class MultiplyPointForm(forms.Form):
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')
+    p_x = forms.IntegerField(label='Współrzędna x')
+    p_y = forms.IntegerField(label='Współrzędna y')
+    multiplier = forms.IntegerField(label='k')
+
+class ShowMultiplesForm(forms.Form):
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')
+    p_x = forms.IntegerField(label='Współrzędna x')
+    p_y = forms.IntegerField(label='Współrzędna y')
+
+class ShowCurveGraphForm(forms.Form):
+    curve_a = forms.IntegerField(label='Współczynnik a')
+    curve_b = forms.IntegerField(label='Współczynnik b')
+    curve_p = forms.IntegerField(label='Liczba pierwsza p')

@@ -1,19 +1,19 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECDSA algorithm</title>
+    <title>Algorytm ECDSA</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
-<h1>ECDSA algorithm</h1>
-<a href="{% url 'ecdsa_sign' %}"><button>Sign Message</button></a>
-<a href="{% url 'ecdsa_messages' %}"><button>Signed Messages</button></a>
-<a href="{% url 'ecdsa_verify' %}"><button>Verify signature</button></a>
-<a href="{% url 'generate_keys' %}"><button>Generate user keys and parameters</button></a>
-<a href="{% url 'users' %}"><button>Users</button></a>
-<a href="{% url 'home_page' %}"><button>Go back</button></a>
+<h1>Algorytm ECDSA</h1>
+<a href="{% url 'ecdsa_sign' %}"><button>Podpisz wiadomość</button></a>
+<a href="{% url 'ecdsa_messages' %}"><button>Podpisane wiadomości</button></a>
+<a href="{% url 'ecdsa_verify' %}"><button>Zweryfikuj podpis</button></a>
+<a href="{% url 'generate_keys' %}"><button>Generuj klucze i parametry użytkownika</button></a>
+<a href="{% url 'users' %}"><button>Użytkownicy</button></a>
+<a href="{% url 'home_page' %}"><button>Wstecz</button></a>
 </body>
 </html>

@@ -1,24 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decrypted Message</title>
+    <title>Odszyfrowana wiadomość</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
-<h1>Decrypted Message</h1>
+<h1>Odszyfrowana wiadomość</h1>
 
 {% if decrypted_message %}
-    <p><strong>Decrypted Message:</strong></p>
-    <p>({{ decrypted_message.x }}, {{ decrypted_message.y }})</p>
+    <p>Punkt ({{ decrypted_message.x }}, {{ decrypted_message.y }})</p>
 {% else %}
-    <p>No message was decrypted.</p>
+    <p>Brak wiadomości.</p>
 {% endif %}
 
 <br>
-<a href="{% url 'elgamal_messages' %}"><button>Go back</button></a>
+<a href="{% url 'elgamal_messages' %}"><button>Wstecz</button></a>
 
 </body>
 </html>

@@ -1,29 +1,41 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Message</title>
+    <title>Podpisz wiadomość</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
 
-<h1>Sign message</h1>
-<!-- Wyświetlanie komunikatów o błędach -->
+<h1>Podpisz wiadomość</h1>
 {% if messages %}
-    <div>
+    <div class="messages">
         {% for message in messages %}
-            <p class="message {{ message.tags }}">{{ message }}</p>
+            <p style="color: red;" class="{{ message.tags }}">{{ message }}</p>
         {% endfor %}
     </div>
 {% endif %}
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign</button>
+    {{ form.username.label_tag }} {{ form.username }}
+    {{ form.password.label_tag }} {{ form.password }}
+    <h2>Parametry krzywej</h2>
+    {{ form.curve_p.label_tag }} {{ form.curve_p }}
+    {{ form.curve_a.label_tag }} {{ form.curve_a }}
+    {{ form.curve_b.label_tag }} {{ form.curve_b }}
+
+    <h2>Punkt bazowy</h2>
+    {{ form.g_x.label_tag }} {{ form.g_x }}
+    {{ form.g_y.label_tag }} {{ form.g_y }}
+
+    <h2>Wiadomość do podpisania</h2>
+    {{ form.message.label_tag }} {{ form.message }}
+
+    <button type="submit">Podpisz wiadomość</button>
 </form>
-<a href="{% url 'ecdsa_page' %}"><button>Go back</button></a>
+<a href="{% url 'ecdsa_page' %}"><button>Wstecz</button></a>
 
 </body>
 </html>

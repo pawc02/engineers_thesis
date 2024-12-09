@@ -1,20 +1,20 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users Keys</title>
+    <title>Użytkownicy</title>
     <link rel="stylesheet" href="{% static 'eccApp/style.css' %}">
 </head>
 <body>
-<h1>Users</h1>
+<h1>Użytkownicy</h1>
 <ul>
     {% for key in keys %}
         <li><a href="{% url 'user_detail' key.id %}">{{ key.username }}</a></li>
     {% endfor %}
 </ul>
-<a href="{% url 'elgamal_page' %}"><button>Go to El Gamal</button></a>
-<a href="{% url 'ecdsa_page' %}"><button>Go to ECDSA</button></a>
+<a href="{% url 'elgamal_page' %}"><button>Wróć do ElGamala</button></a>
+<a href="{% url 'ecdsa_page' %}"><button>Wróć do ECDSA</button></a>
 </body>
 </html>
