@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import EcdsaSignForm, EcdsaVerifyForm, ElGamalEncryptForm, ElGamalDecryptForm, KeysGenerationForm, PasswordVerificationForm, LenstraForm, AddPointsForm, MultiplyPointForm, ShowMultiplesForm, ShowCurveGraphForm, UpdateUserParametersForm
 from .models import SignedMessage, EncryptedMessage, UserKeys
-from .appModule import generate_key_pair, hash_message, ecdsa_sign, ecdsa_verify, Point, elgamal_encrypt, elgamal_decrypt, ecm_factorization, elliptic_curve_add, elliptic_curve_multiply, plot_elliptic_curve_modulo, get_point_order, count_points_on_curve, draw_valid_curve_and_point, plot_points_on_curve, is_point_on_curve, validate_curve_parameters
+from .appModule import generate_key_pair, hash_message, ecdsa_sign, ecdsa_verify, Point, elgamal_encrypt, elgamal_decrypt, ecm_factorization, elliptic_curve_add, elliptic_curve_multiply, plot_elliptic_curve_modulo, get_point_order, count_points_on_curve, draw_valid_curve_and_point, plot_points_on_curve, is_point_on_curve, validate_curve_parameters, is_prime
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib import messages
@@ -66,51 +66,59 @@ def ecdsa_sign_view(request, key_id=None):
             is_valid_curve, validation_error = validate_curve_parameters(curve_p, curve_a, curve_b)
             if not is_valid_curve:
                 messages.error(request, validation_error)
+                return render(request, 'eccApp/ecdsa_sign.html', {'form': form})
+
+            # Obliczenie rzędu punktu bazowego
+            G = Point(g_x, g_y, False)
+            curve_n = get_point_order(G, curve_p, curve_a)
+
             # Walidacja punktu bazowego
-            elif not is_point_on_curve(g_x, g_y, curve_a, curve_b, curve_p):
+            if not is_point_on_curve(g_x, g_y, curve_a, curve_b, curve_p):
                 messages.error(request, f"Punkt bazowy ({g_x}, {g_y}) nie leży na krzywej.")
-            else:
-                # Obliczenie rzędu krzywej
-                curve_n = count_points_on_curve(curve_a, curve_b, curve_p)
+                return render(request, 'eccApp/ecdsa_sign.html', {'form': form})
+            # Sprawdzenie, czy rząd punktu bazowego jest liczbą pierwszą
+            if not is_prime(curve_n):
+                messages.error(request, f"Rząd punktu bazowego ({curve_n}) nie jest liczbą pierwszą.")
+                return render(request, 'eccApp/ecdsa_sign.html', {'form': form})
 
-                try:
-                    # Wyszukanie użytkownika w bazie danych
-                    user = UserKeys.objects.get(username=username)
+            try:
+                # Wyszukanie użytkownika w bazie danych
+                user = UserKeys.objects.get(username=username)
 
-                    # Sprawdzenie poprawności hasła
-                    if check_password(password, user.hashed_password):
-                        # Pobranie klucza prywatnego z bazy danych
-                        privkey = user.privkey
+                # Sprawdzenie poprawności hasła
+                if check_password(password, user.hashed_password):
+                    # Pobranie klucza prywatnego z bazy danych
+                    privkey = user.privkey
 
-                        # Hashowanie wiadomości
-                        hash_msg = hash_message(message)
+                    # Hashowanie wiadomości
+                    hash_msg = hash_message(message)
 
-                        # Podpisanie wiadomości
-                        r, s = ecdsa_sign(privkey, hash_msg, curve_p, curve_a, curve_n, g_x, g_y)
+                    # Podpisanie wiadomości
+                    r, s = ecdsa_sign(privkey, hash_msg, curve_p, curve_a, curve_n, g_x, g_y)
 
-                        # Zapisanie podpisanej wiadomości do bazy danych
-                        signed_message = SignedMessage(
-                            username=username,
-                            curve_p=curve_p,
-                            curve_a=curve_a,
-                            curve_b=curve_b,
-                            curve_n=curve_n,
-                            g_x=g_x,
-                            g_y=g_y,
-                            message=message,
-                            pubkey_x=user.pubkey_x,
-                            pubkey_y=user.pubkey_y,
-                            r=r,
-                            s=s,
-                            hash=hash_msg
-                        )
-                        signed_message.save()
+                    # Zapisanie podpisanej wiadomości do bazy danych
+                    signed_message = SignedMessage(
+                        username=username,
+                        curve_p=curve_p,
+                        curve_a=curve_a,
+                        curve_b=curve_b,
+                        curve_n=curve_n,
+                        g_x=g_x,
+                        g_y=g_y,
+                        message=message,
+                        pubkey_x=user.pubkey_x,
+                        pubkey_y=user.pubkey_y,
+                        r=r,
+                        s=s,
+                        hash=hash_msg
+                    )
+                    signed_message.save()
 
-                        return redirect(reverse('ecdsa_messages'))
-                    else:
-                        messages.error(request, 'Błędne hasło.')
-                except UserKeys.DoesNotExist:
-                    messages.error(request, 'Użytkownik nie istnieje.')
+                    return redirect(reverse('ecdsa_messages'))
+                else:
+                    messages.error(request, 'Błędne hasło.')
+            except UserKeys.DoesNotExist:
+                messages.error(request, 'Użytkownik nie istnieje.')
     else:
         form = EcdsaSignForm(initial=initial_data)
 
@@ -166,20 +174,26 @@ def ecdsa_verify_view(request, message_id=None):
             r = form.cleaned_data['r']
             s = form.cleaned_data['s']
 
+
             # Walidacja parametrów krzywej
             is_valid_curve, validation_error = validate_curve_parameters(curve_p, curve_a, curve_b)
             if not is_valid_curve:
                 messages.error(request, validation_error)
+
+            # Obliczenie rzędu punktu bazowego
+            G = Point(g_x, g_y, False)
+            curve_n = get_point_order(G, curve_p, curve_a)
+
+            # Sprawdzenie, czy rząd punktu bazowego jest liczbą pierwszą
+            if not is_prime(curve_n):
+                messages.error(request, f"Rząd punktu bazowego ({curve_n}) nie jest liczbą pierwszą.")
             # Walidacja punktu bazowego
-            elif not is_point_on_curve(g_x, g_y, curve_a, curve_b, curve_p):
+            if not is_point_on_curve(g_x, g_y, curve_a, curve_b, curve_p):
                 messages.error(request, f"Punkt bazowy ({g_x}, {g_y}) nie leży na krzywej.")
             # Walidacja klucza publicznego
-            elif not is_point_on_curve(pubkey_x, pubkey_y, curve_a, curve_b, curve_p):
+            if not is_point_on_curve(pubkey_x, pubkey_y, curve_a, curve_b, curve_p):
                 messages.error(request, f"Klucz publiczny ({pubkey_x}, {pubkey_y}) nie leży na krzywej.")
             else:
-                # Obliczenie rzędu krzywej
-                curve_n = count_points_on_curve(curve_a, curve_b, curve_p)
-
                 # Hashowanie wiadomości
                 hash_msg = hash_message(message)
 
@@ -442,6 +456,7 @@ def generate_keys_view(request):
     if request.method == 'POST':
         form = KeysGenerationForm(request.POST)
 
+        # Losowanie parametrów krzywej
         if "draw_parameters" in request.POST:
             curve_p, curve_a, curve_b, g_x, g_y = draw_valid_curve_and_point()
             curve_n = count_points_on_curve(curve_a, curve_b, curve_p)
@@ -456,6 +471,7 @@ def generate_keys_view(request):
                 'g_y': g_y,
             })
 
+        # Generowanie kluczy
         elif "generate_keys" in request.POST:
             if form.is_valid():
                 # Pobranie danych z formularza
@@ -524,6 +540,7 @@ def change_user_parameters(request, key_id):
     if request.method == 'POST':
         form = UpdateUserParametersForm(request.POST)
 
+        # Losowanie parametrów krzywej
         if "draw_parameters" in request.POST:
             curve_p, curve_a, curve_b, g_x, g_y = draw_valid_curve_and_point()
             curve_n = count_points_on_curve(curve_a, curve_b, curve_p)
@@ -540,6 +557,7 @@ def change_user_parameters(request, key_id):
             }
             form = UpdateUserParametersForm(initial=initial_data)
 
+        # Generowanie kluczy
         elif "generate_keys" in request.POST:
             if form.is_valid():
                 # Pobranie danych z formularza

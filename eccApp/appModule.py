@@ -30,6 +30,15 @@ class Point:
     def unset_infinity(self):
         self.is_infinity = False
 
+    def __eq__(self, other):
+        if isinstance(other, Point):
+            if self.is_infinity and other.is_infinity:
+                return True
+            if self.is_infinity != other.is_infinity:
+                return False
+            return self.x == other.x and self.y == other.y
+        return False
+
 def mod(a, m):
     """
     @brief Funkcja oblicza resztę z dzielenia liczby `a` przez `m`.
@@ -358,11 +367,11 @@ def validate_curve_parameters(curve_p, curve_a, curve_b):
     if not (0 <= curve_b < curve_p):
         return False, f"Współczynnik b nie mieści się w przedziale [0, {curve_p - 1}]."
 
-    # Sprawdzamy równanie 4a^3 + 27b^2 ≠ 0 (mod p)
+    # Sprawdzamy warunek 4a^3 + 27b^2 ≠ 0 (mod p)
     term1 = (4 * pow(curve_a, 3, curve_p)) % curve_p
     term2 = (27 * pow(curve_b, 2, curve_p)) % curve_p
     if (term1 + term2) % curve_p == 0:
-        return False, f"Parametry krzywej nie spełniają równania: 4a^3 + 27b^2 ≠ 0 (mod {curve_p})."
+        return False, f"Parametry krzywej nie spełniają warunku: 4a^3 + 27b^2 ≠ 0 (mod {curve_p})."
 
     # Wszystkie testy przeszły pomyślnie
     return True, None
