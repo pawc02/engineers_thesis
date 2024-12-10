@@ -1,4 +1,4 @@
-# Instrukcja uruchomienia aplikacji
+# Informacje dotyczące aplikacji
 
 Projekt zawiera program demonstrujący działanie algorytmów opartych
 na krzywych eliptycznych. Program zawiera implementacje trzech algorytmów: 
