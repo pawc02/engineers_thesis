@@ -1,7 +1,7 @@
 # Informacje dotyczące aplikacji
 
-Projekt zawiera program demonstrujący działanie algorytmów opartych
-na krzywych eliptycznych. Program zawiera implementacje trzech algorytmów: 
+Program demonstruje działanie algorytmów opartych
+na krzywych eliptycznych. Zawiera implementacje trzech algorytmów: 
 ElGamala na krzywych eliptycznych, ECDSA oraz faktoryzacji Lenstry.
 
 ## Wymagania wstępne
