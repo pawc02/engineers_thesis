@@ -1,4 +1,4 @@
-# Informacje dotyczące aplikacji
+# Praca inżynierska - Zastosowania krzywych eliptycznych w kryptografii
 
 Program demonstruje działanie algorytmów opartych
 na krzywych eliptycznych. Zawiera implementacje trzech algorytmów: 
